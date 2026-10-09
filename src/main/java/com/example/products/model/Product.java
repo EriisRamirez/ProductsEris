@@ -11,7 +11,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, long price, int stock) {
+    public Product(String name, Double price, int stock) {
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -21,7 +21,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
-    private long price;
+    private Double price;
     private int stock;
 
     public long getId() {
@@ -40,11 +40,11 @@ public class Product {
         this.name = name;
     }
 
-    public long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
