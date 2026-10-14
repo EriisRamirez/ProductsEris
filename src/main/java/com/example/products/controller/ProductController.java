@@ -22,11 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
-
-
-
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -56,12 +51,10 @@ public class ProductController {
         return ResponseEntity.ok(toResponse(product.get()));
     }
     @PostMapping
-    public ResponseEntity<ProductResponse> save(@Valid @RequestBody Product product) {
-        Product newProduct =service.save(product);
-        return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(newProduct));
+    public ResponseEntity<ProductResponse> save(@Valid @RequestBody ProductRequest product) {
+        Product productSaved =service.save(toEntity(product),product.categoryId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(productSaved));
     }
-
-    
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponse> update(@PathVariable Long id,@Valid @RequestBody ProductRequest productUpdated) {
@@ -81,7 +74,7 @@ public class ProductController {
     }
 
     private ProductResponse toResponse(Product product){
-        return new ProductResponse(product.getId(),product.getName(),product.getPrice(),product.getStock());
+        return new ProductResponse(product.getId(),product.getName(),product.getPrice(),product.getStock(),"",0L);
     }
 
     private Product toEntity(ProductRequest product){
