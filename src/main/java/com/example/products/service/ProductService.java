@@ -1,13 +1,15 @@
 package com.example.products.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.example.products.exception.ResourceNotFoundException;
 import com.example.products.model.Category;
 import com.example.products.model.Product;
 import com.example.products.repository.CategoryRepository;
 import com.example.products.repository.ProductRepository;
-import java.util.Optional;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ProductService {
@@ -26,19 +28,33 @@ public class ProductService {
     public Optional<Product> findById(Long id){
         return repo.findById(id);
     }
-    public Product save(Product product, Long id){
-        Category category = repocategory.findById(id).orElseThrow(
-
+    public Product save(Product product, Long categoryId){
+        Category category = repocategory.findById(categoryId).orElseThrow(
+            ()-> 
+            new ResourceNotFoundException("Category not found with id: "
+            +categoryId)
         );
         product.setCategory(category);
         return repo.save(product);
     }
-    public Optional<Product> update(Long id,Product product){
-        Optional<Product> optional = repo.findById(id);
-        Product productBd=optional.get();
-        productBd.setName(product.getName());
-        productBd.setPrice(product.getPrice());
-        productBd.setStock(product.getStock());
+    public Optional<Product> update(Long id,Product newProduct, Long categoryId){
+        
+        Product productBd = repo.findById(id).orElseThrow(
+            ()->
+            new ResourceNotFoundException("Product not found with id: "
+            +id)
+        );
+
+        Category category = repocategory.findById(categoryId).orElseThrow(
+            ()->
+            new ResourceNotFoundException("Category not found with id: " +
+            categoryId)
+        );
+        //Product productBd=optional.get();
+        productBd.setName(newProduct.getName()+" ");
+        productBd.setPrice((double)newProduct.getPrice());
+        productBd.setStock(newProduct.getStock());
+        productBd.setCategory(category);
         return Optional.of(repo.save(productBd));
     }
     public boolean delete(Long id){
