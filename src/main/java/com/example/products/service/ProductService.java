@@ -3,6 +3,8 @@ package com.example.products.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.products.dto.ProductResponse;
+import com.example.products.exception.StockException;
 import org.springframework.stereotype.Service;
 
 import com.example.products.exception.ResourceNotFoundException;
@@ -37,7 +39,7 @@ public class ProductService {
         product.setCategory(category);
         return repo.save(product);
     }
-    public Optional<Product> update(Long id,Product newProduct, Long categoryId){
+    public Product update(Long id,Product newProduct, Long categoryId){
         
         Product productBd = repo.findById(id).orElseThrow(
             ()->
@@ -55,7 +57,7 @@ public class ProductService {
         productBd.setPrice((double)newProduct.getPrice());
         productBd.setStock(newProduct.getStock());
         productBd.setCategory(category);
-        return Optional.of(repo.save(productBd));
+        return repo.save(productBd);
     }
     public boolean delete(Long id){
         if (!repo.existsById(id)) {
@@ -64,4 +66,13 @@ public class ProductService {
         repo.deleteById(id);
         return true;
     }
-}
+
+    public Product descuentoProduct (Long id, Double descuento, Product product){
+        if (product.getStock() <=0) {
+            throw new StockException("Stock esta en 0");
+        }
+
+        Double newPrice = product.getPrice() - ((product.getPrice() * descuento) / 100);
+        product.setPrice(newPrice);
+        return repo.save(product);
+}}
