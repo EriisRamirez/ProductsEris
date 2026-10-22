@@ -3,23 +3,31 @@ package com.example.products.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.example.products.dto.PorcentajeRequest;
-import com.example.products.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.ResourceAccessException;
 
+import com.example.products.dto.PorcentajeRequest;
 import com.example.products.dto.ProductRequest;
 import com.example.products.dto.ProductResponse;
+import com.example.products.exception.ResourceNotFoundException;
 import com.example.products.model.Product;
 import com.example.products.service.ProductService;
 
 import jakarta.validation.Valid;
-import org.springframework.web.client.ResourceAccessException;
 
 @RestController
 @RequestMapping("/products")

@@ -3,11 +3,10 @@ package com.example.products.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.products.dto.ProductResponse;
-import com.example.products.exception.StockException;
 import org.springframework.stereotype.Service;
 
 import com.example.products.exception.ResourceNotFoundException;
+import com.example.products.exception.StockException;
 import com.example.products.model.Category;
 import com.example.products.model.Product;
 import com.example.products.repository.CategoryRepository;
