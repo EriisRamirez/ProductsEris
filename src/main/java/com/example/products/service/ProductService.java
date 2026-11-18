@@ -74,4 +74,6 @@ public class ProductService {
         Double newPrice = product.getPrice() - ((product.getPrice() * descuento) / 100);
         product.setPrice(newPrice);
         return repo.save(product);
-}}
+    }
+}
+
